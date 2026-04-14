@@ -1,0 +1,1624 @@
+.kwm-container {
+    max-width: 100%;
+    margin: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    overflow: hidden;
+}
+
+#kwm-map {
+    width: 100%;
+    border-radius: 8px;
+    border: 2px solid #ddd;
+    z-index: 1;
+}
+
+#kwm-map.kwm-grayscale .leaflet-tile-pane {
+    filter: grayscale(100%) brightness(1.05);
+}
+
+.kwm-controls {
+    margin-bottom: 0;
+    padding: 0;
+    background: #1d2327;
+    border-radius: 0;
+    flex-wrap: wrap;
+}
+
+/* Header row: back arrow | title | collapse toggle */
+.kwm-controls-header {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 8px 12px;
+    border-bottom: 1px solid #2c3338;
+}
+
+.kwm-back-arrow {
+    color: #aaa;
+    text-decoration: none;
+    font-size: 18px;
+    line-height: 1;
+    padding: 2px 6px;
+    border-radius: 4px;
+    transition: color 0.15s, background 0.15s;
+    flex-shrink: 0;
+}
+.kwm-back-arrow:hover {
+    color: #fff;
+    background: rgba(255,255,255,0.1);
+}
+
+.kwm-title {
+    margin: 0;
+    color: #fff;
+    font-size: 15px;
+    font-weight: 700;
+    flex: 1;
+}
+
+.kwm-controls-toggle {
+    background: none;
+    border: 1px solid #444;
+    color: #aaa;
+    font-size: 16px;
+    line-height: 1;
+    padding: 3px 8px;
+    border-radius: 4px;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: color 0.15s, background 0.15s;
+}
+.kwm-controls-toggle:hover {
+    color: #fff;
+    background: rgba(255,255,255,0.1);
+}
+.kwm-controls.collapsed .kwm-controls-toggle {
+    transform: rotate(180deg);
+}
+
+/* Collapsible body */
+.kwm-controls-body {
+    overflow: hidden;
+    transition: max-height 0.25s ease;
+    max-height: 300px;
+}
+.kwm-controls.collapsed .kwm-controls-body {
+    max-height: 0;
+}
+
+.kwm-controls-inner {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding: 8px 12px;
+}
+
+.kwm-controls label {
+    font-weight: 600;
+    color: #ccc;
+    font-size: 13px;
+}
+
+/* Ward filter chips in toolbar */
+.kwm-filter-row {
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    border-top: 1px solid #2c3338;
+    width: 100%;
+}
+
+.kwm-ward-filters {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    flex-wrap: wrap;
+    padding: 6px 10px 6px 12px;
+    flex: 1;
+    min-width: 0;
+}
+
+.kwm-toggles {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding: 6px 12px 6px 8px;
+    border-left: 1px solid #2c3338;
+    flex-shrink: 0;
+}
+
+.kwm-filter-label {
+    color: #888;
+    font-size: 12px;
+    font-weight: 600;
+    margin-right: 4px;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.kwm-ward-chip {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 6px;
+    font-size: 13px;
+    font-weight: 700;
+    cursor: pointer;
+    user-select: none;
+    transition: all 0.15s;
+    background: #333;
+    color: #666;
+    border: 2px solid #444;
+}
+
+.kwm-ward-chip.active {
+    background: var(--ward-clr);
+    color: #fff;
+    border-color: var(--ward-clr);
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+.kwm-ward-chip:hover {
+    transform: scale(1.1);
+}
+
+.kwm-ward-chip-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-size: 11px;
+    font-weight: 600;
+    cursor: pointer;
+    user-select: none;
+    background: #444;
+    color: #ccc;
+    border: 1px solid #555;
+    transition: all 0.15s;
+}
+
+.kwm-ward-chip-btn:hover {
+    background: #555;
+    color: #fff;
+}
+
+/* Legend button */
+.kwm-btn-legend {
+    background: #444;
+    border: 1px solid #555;
+    font-size: 12px;
+    padding: 4px 12px;
+}
+
+.kwm-btn-legend:hover {
+    background: #555;
+}
+
+/* Legend overlay/modal */
+.kwm-legend-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.kwm-legend-modal {
+    background: #fff;
+    border-radius: 12px;
+    padding: 28px 32px;
+    max-width: 520px;
+    width: 90%;
+    max-height: 85vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.kwm-legend-close {
+    position: absolute;
+    top: 12px; right: 16px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #999;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.kwm-legend-close:hover {
+    color: #333;
+}
+
+.kwm-legend-modal h3 {
+    margin: 0 0 8px 0;
+    font-size: 18px;
+    color: #1d2327;
+}
+
+.kwm-legend-intro {
+    font-size: 13px;
+    color: #666;
+    margin: 0 0 16px 0;
+    line-height: 1.5;
+}
+
+.kwm-legend-row {
+    display: flex;
+    gap: 12px;
+    margin-bottom: 14px;
+    align-items: flex-start;
+}
+
+.kwm-culture-dot {
+    width: 18px;
+    height: 18px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+
+.kwm-legend-row strong {
+    display: block;
+    font-size: 14px;
+    color: #1d2327;
+    margin-bottom: 2px;
+}
+
+.kwm-legend-row p {
+    font-size: 12px;
+    color: #555;
+    margin: 0;
+    line-height: 1.5;
+}
+
+.kwm-toggle {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+    cursor: pointer;
+    font-weight: 500 !important;
+}
+
+.kwm-toggle input[type="checkbox"] {
+    accent-color: #2271b1;
+}
+
+#kwm-color-mode,
+#kwm-ward-select {
+    padding: 6px 10px;
+    border: 1px solid #555;
+    border-radius: 4px;
+    font-size: 13px;
+    min-width: 140px;
+    background: #2c3338;
+    color: #fff;
+}
+
+.kwm-btn {
+    padding: 6px 14px;
+    background: #2271b1;
+    color: #fff;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 13px;
+    transition: background 0.2s;
+}
+
+.kwm-btn:hover {
+    background: #135e96;
+}
+
+/* Ward info panel */
+.kwm-ward-info {
+    margin-top: 0;
+    padding: 0;
+    transition: all 0.3s ease;
+}
+
+.kwm-ward-info.active {
+    padding: 16px;
+    background: #f8f9fa;
+    border-radius: 0 0 8px 8px;
+    border: 1px solid #e0e0e0;
+    border-top: 3px solid var(--ward-color, #2271b1);
+}
+
+.kwm-ward-info h3 {
+    margin: 0 0 8px 0;
+    color: #1d2327;
+    font-size: 18px;
+}
+
+.kwm-ward-info p {
+    margin: 4px 0;
+    color: #50575e;
+    font-size: 14px;
+}
+
+.kwm-ward-info a {
+    color: #2271b1;
+    text-decoration: none;
+}
+
+.kwm-ward-info a:hover {
+    text-decoration: underline;
+}
+
+.kwm-ward-info .kwm-areas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+    margin-top: 8px;
+}
+
+.kwm-ward-info .kwm-area-tag {
+    display: inline-block;
+    padding: 3px 10px;
+    background: #e8f0fe;
+    color: #1a56db;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 500;
+}
+
+/* Ward label on map */
+.kwm-ward-label {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+    white-space: nowrap;
+    text-align: center;
+}
+
+.kwm-label-inner {
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+    background: rgba(255,255,255,0.85);
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 12px;
+    font-weight: 700;
+    color: #333;
+    box-shadow: 0 1px 3px rgba(0,0,0,0.2);
+}
+
+.kwm-label-logo {
+    width: 18px;
+    height: 18px;
+    object-fit: contain;
+    display: none;
+}
+.kwm-show-party .kwm-label-logo {
+    display: inline-block;
+}
+
+/* Top-parties label */
+.kwm-label-parties {
+    display: none;
+    gap: 3px;
+    font-size: 9px;
+    font-weight: 700;
+    margin-top: 2px;
+}
+.kwm-show-top-parties .kwm-label-parties {
+    display: flex;
+}
+.kwm-label-party-pill {
+    background: rgba(0,0,0,0.65);
+    color: #fff;
+    padding: 1px 5px;
+    border-radius: 8px;
+    white-space: nowrap;
+    border-left: 3px solid var(--party-clr, #999);
+}
+
+.kwm-label-enhanced {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 1px;
+}
+
+.kwm-label-stats {
+    display: flex;
+    gap: 6px;
+    font-size: 9px;
+    font-weight: 700;
+}
+
+.kwm-label-rev {
+    background: rgba(0,0,0,0.6);
+    color: #4fc3f7;
+    padding: 1px 5px;
+    border-radius: 8px;
+}
+
+.kwm-label-votes {
+    background: rgba(0,0,0,0.6);
+    color: #fff;
+    padding: 1px 5px;
+    border-radius: 8px;
+}
+
+/* Hidden by default, shown via container class */
+.kwm-stat-fiscal,
+.kwm-stat-capex,
+.kwm-stat-votes {
+    display: none;
+}
+
+.kwm-show-fiscal .kwm-stat-fiscal { display: inline; }
+.kwm-show-capex .kwm-stat-capex { display: inline; }
+.kwm-show-votes .kwm-stat-votes { display: inline; }
+
+.kwm-label-capex {
+    background: rgba(0,0,0,0.6);
+    color: #ff9800;
+    padding: 1px 5px;
+    border-radius: 8px;
+}
+
+/* Leaflet tooltip popup */
+.kwm-popup h4 {
+    margin: 0 0 4px 0;
+    font-size: 14px;
+    color: #1d2327;
+}
+
+.kwm-popup p {
+    margin: 2px 0;
+    font-size: 12px;
+    color: #50575e;
+}
+
+/* Ward detail popup */
+.kwm-ward-popup .leaflet-popup-content-wrapper {
+    border-radius: 10px;
+    padding: 0;
+    overflow: hidden;
+}
+
+.kwm-ward-popup .leaflet-popup-content {
+    margin: 0;
+    width: 420px;
+}
+
+.kwm-detail-popup {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+/* 3-column card: photo | party logo | info */
+.kwm-card-row {
+    display: flex;
+    align-items: stretch;
+    border-bottom: 2px solid #e0e0e0;
+}
+
+.kwm-card-photo {
+    flex-shrink: 0;
+    border-right: 2px solid #e0e0e0;
+}
+
+.kwm-card-photo img {
+    width: 110px;
+    min-height: 100%;
+    object-fit: cover;
+    object-position: top;
+    display: block;
+}
+
+.kwm-card-party-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin: 0 0 4px 0;
+}
+
+.kwm-card-party-logo {
+    height: 22px;
+    width: auto;
+    max-width: 50px;
+    object-fit: contain;
+}
+
+.kwm-card-info {
+    flex: 1;
+    padding: 12px 14px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+.kwm-card-info h3 {
+    margin: 0 0 6px 0;
+    font-size: 17px;
+    font-weight: 800;
+    color: #005BA6;
+}
+
+.kwm-card-location {
+    font-size: 12px;
+    color: #888;
+    margin: 0 0 4px 0;
+}
+
+.kwm-card-name {
+    font-size: 14px;
+    font-weight: 700;
+    color: #1d2327;
+    margin: 0 0 1px 0;
+}
+
+.kwm-card-party {
+    font-size: 12px;
+    font-style: italic;
+    color: #666;
+    margin: 0 0 4px 0;
+}
+
+.kwm-card-info p {
+    margin: 1px 0;
+    font-size: 12px;
+    color: #50575e;
+}
+
+.kwm-card-info a {
+    color: #2271b1;
+    text-decoration: none;
+}
+
+.kwm-card-info a:hover {
+    text-decoration: underline;
+}
+
+.kwm-card-fiscal {
+    font-size: 10px;
+    color: #4fc3f7;
+    font-weight: 600;
+    margin: 4px 0 0 0;
+    cursor: help;
+}
+
+.kwm-card-pr {
+    flex-shrink: 0;
+    width: 160px;
+    padding: 10px 12px;
+    border-left: 2px solid #e0e0e0;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+
+/* Bottom row: 3 columns */
+.kwm-card-bottom {
+    display: flex;
+    border-top: 2px solid #e0e0e0;
+}
+
+.kwm-card-col {
+    flex: 1;
+    padding: 8px 10px;
+    border-right: 1px solid #e8e8e8;
+    font-size: 11px;
+    min-width: 0;
+}
+
+.kwm-card-col:last-child {
+    border-right: none;
+}
+
+.kwm-detail-areas {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 3px;
+    margin-top: 4px;
+}
+
+.kwm-pr-header {
+    font-size: 10px;
+    font-weight: 700;
+    color: #555;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    margin-bottom: 4px;
+}
+
+.kwm-pr-bar {
+    display: flex;
+    height: 20px;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 6px;
+}
+
+.kwm-pr-segment {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 9px;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.3);
+    min-width: 0;
+    transition: width 0.3s;
+}
+
+.kwm-pr-list {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 6px;
+}
+
+.kwm-pr-item {
+    display: flex;
+    align-items: center;
+    gap: 3px;
+    font-size: 10px;
+    color: #555;
+}
+
+.kwm-pr-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+
+/* Info/sources button */
+.kwm-info-btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 26px;
+    height: 26px;
+    border-radius: 50%;
+    background: #444;
+    color: #ccc;
+    font-size: 16px;
+    cursor: pointer;
+    border: 1px solid #555;
+    transition: all 0.15s;
+    line-height: 1;
+}
+
+.kwm-info-btn:hover {
+    background: #555;
+    color: #fff;
+}
+
+/* Sources modal */
+.kwm-sources-overlay {
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background: rgba(0,0,0,0.6);
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.kwm-sources-modal {
+    background: #fff;
+    border-radius: 12px;
+    padding: 28px 32px;
+    max-width: 580px;
+    width: 90%;
+    max-height: 80vh;
+    overflow-y: auto;
+    position: relative;
+    box-shadow: 0 8px 32px rgba(0,0,0,0.3);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.kwm-sources-close {
+    position: absolute;
+    top: 12px; right: 16px;
+    background: none;
+    border: none;
+    font-size: 24px;
+    color: #999;
+    cursor: pointer;
+    line-height: 1;
+}
+
+.kwm-sources-close:hover {
+    color: #333;
+}
+
+.kwm-sources-modal h3 {
+    margin: 0 0 8px 0;
+    font-size: 18px;
+    color: #1d2327;
+}
+
+.kwm-sources-intro {
+    font-size: 13px;
+    color: #666;
+    margin: 0 0 16px 0;
+}
+
+.kwm-sources-modal h4 {
+    font-size: 13px;
+    color: #1d2327;
+    margin: 14px 0 4px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+}
+
+.kwm-sources-modal ul {
+    margin: 0 0 4px 0;
+    padding-left: 18px;
+}
+
+.kwm-sources-modal li {
+    font-size: 12px;
+    color: #555;
+    line-height: 1.6;
+}
+
+.kwm-sources-modal em {
+    color: #333;
+}
+
+.kwm-budget-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 6px 0 10px;
+    font-size: 12px;
+}
+
+.kwm-budget-table td {
+    padding: 3px 8px;
+    border-bottom: 1px solid #eee;
+    color: #555;
+}
+
+.kwm-budget-table tr:hover td {
+    background: #f8f8f8;
+}
+
+.kwm-bt-val {
+    font-weight: 700;
+    color: #1d2327;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.kwm-bt-pct {
+    color: #888;
+    text-align: right;
+    white-space: nowrap;
+}
+
+.kwm-bt-note {
+    font-size: 10px;
+    color: #999;
+    font-style: italic;
+}
+
+.kwm-sources-note {
+    margin-top: 16px;
+    padding-top: 12px;
+    border-top: 1px solid #e0e0e0;
+    font-size: 11px;
+    color: #888;
+    font-style: italic;
+}
+
+/* Culture legend bar (inside toolbar) */
+.kwm-culture-bar {
+    display: flex;
+    gap: 4px;
+    padding: 6px 16px 8px;
+    border-top: 1px solid #333;
+    width: 100%;
+}
+
+.kwm-cb-col {
+    flex: 1;
+    padding: 8px 10px;
+    border-radius: 6px;
+    background: rgba(255,255,255,0.08);
+    border-left: 5px solid #999;
+    min-width: 0;
+}
+
+.kwm-cb-title {
+    font-size: 13px;
+    font-weight: 800;
+    color: #fff;
+    margin-bottom: 4px;
+}
+
+.kwm-cb-desc {
+    font-size: 12px;
+    color: #ddd;
+    line-height: 1.4;
+}
+
+/* Party spectrum bar */
+.kwm-party-spectrum {
+    width: 100%;
+    padding: 4px 16px 2px;
+    border-top: 1px solid #333;
+}
+
+.kwm-spectrum-bar {
+    position: relative;
+    height: 32px;
+    background: linear-gradient(to right, #d32f2f, #f57c00, #fbc02d, #0288d1, #1565c0);
+    border-radius: 4px;
+    overflow: hidden;
+}
+
+.kwm-spec-party {
+    position: absolute;
+    height: 14px;
+    border-radius: 3px;
+    font-size: 8px;
+    font-weight: 800;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.4);
+    border: 1px solid rgba(255,255,255,0.3);
+}
+
+.kwm-spec-party:nth-child(-n+3) {
+    top: 1px;
+}
+
+.kwm-spec-party:nth-child(n+4) {
+    top: 17px;
+}
+
+/* Simulator */
+.kwm-simulator {
+    padding: 6px 16px 8px;
+    border-top: 1px solid #333;
+    width: 100%;
+}
+
+.kwm-sim-header {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    margin-bottom: 6px;
+}
+
+.kwm-sim-title {
+    color: #fff;
+    font-size: 12px;
+    font-weight: 700;
+}
+
+.kwm-sim-note {
+    color: #888;
+    font-size: 10px;
+}
+
+.kwm-sim-reset-btn {
+    padding: 2px 8px;
+    background: #444;
+    color: #ccc;
+    border: 1px solid #555;
+    border-radius: 3px;
+    font-size: 10px;
+    cursor: pointer;
+    margin-left: auto;
+}
+
+.kwm-sim-reset-btn:hover {
+    background: #555;
+    color: #fff;
+}
+
+.kwm-sim-link {
+    color: #90caf9;
+    text-decoration: none;
+    font-size: 10px;
+    margin-left: 8px;
+}
+
+.kwm-sim-link:hover {
+    text-decoration: underline;
+}
+
+.kwm-sim-sliders {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.kwm-sim-slider {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+}
+
+.kwm-sim-slider label {
+    font-size: 10px;
+    font-weight: 700;
+    min-width: 28px;
+    text-align: right;
+}
+
+.kwm-sim-slider input[type="range"] {
+    width: 80px;
+    height: 4px;
+    cursor: pointer;
+}
+
+.kwm-sim-slider .kwm-sim-val {
+    font-size: 10px;
+    color: #ccc;
+    min-width: 32px;
+}
+
+.kwm-sim-result {
+    display: flex;
+    gap: 2px;
+    margin-top: 6px;
+    height: 24px;
+}
+
+.kwm-sim-seat {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 3px;
+    font-size: 9px;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.3);
+    min-width: 0;
+    transition: flex 0.3s;
+}
+
+/* Ward data table */
+.kwm-data-bar {
+    padding: 4px 16px;
+    border-top: 1px solid #333;
+    width: 100%;
+}
+
+.kwm-data-bar.kwm-collapsed {
+    padding-bottom: 4px;
+}
+
+.kwm-data-title {
+    color: #ccc;
+    font-size: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    user-select: none;
+    display: block;
+    padding: 2px 0;
+}
+
+.kwm-data-title:hover {
+    color: #fff;
+}
+
+.kwm-data-table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 13px;
+    margin-top: 4px;
+}
+
+.kwm-data-table th {
+    background: #333;
+    color: #aaa;
+    padding: 3px 6px;
+    text-align: left;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 9px;
+    letter-spacing: 0.3px;
+    border-bottom: 1px solid #444;
+    cursor: pointer;
+    user-select: none;
+}
+
+.kwm-data-table th:hover {
+    color: #fff;
+}
+
+.kwm-data-table th.kwm-sort-asc::after {
+    content: ' \25B2';
+    font-size: 8px;
+}
+
+.kwm-data-table th.kwm-sort-desc::after {
+    content: ' \25BC';
+    font-size: 8px;
+}
+
+.kwm-data-table td {
+    padding: 3px 6px;
+    color: #333;
+    border-bottom: 1px solid #e8e8e8;
+    white-space: nowrap;
+}
+
+.kwm-data-table tr:hover td {
+    background: #f5f5f5;
+}
+
+.kwm-data-total td {
+    border-top: 2px solid #333;
+    color: #1d2327;
+    font-weight: 700;
+    padding-top: 4px;
+}
+
+.kwm-data-table th {
+    background: #f0f0f0;
+    color: #333;
+}
+
+/* Council seat grid (inside toolbar) */
+.kwm-council-bar {
+    padding: 6px 16px 8px;
+    border-top: 1px solid #333;
+    width: 100%;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+
+.kwm-council-inner {
+    max-width: 100%;
+}
+
+.kwm-council-title {
+    color: #ccc;
+    font-size: 12px;
+    font-weight: 700;
+    display: block;
+    cursor: pointer;
+    user-select: none;
+    padding: 2px 0;
+}
+
+.kwm-council-title:hover {
+    color: #fff;
+}
+
+.kwm-toggle-arrow {
+    font-size: 10px;
+    margin-left: 4px;
+    color: #888;
+}
+
+.kwm-council-subtitle {
+    color: #666;
+    font-size: 11px;
+    display: block;
+    margin-bottom: 8px;
+}
+
+.kwm-row-label {
+    color: #666;
+}
+
+.kwm-collapsed {
+    padding-bottom: 4px;
+}
+
+.kwm-row-label {
+    color: #888;
+    font-size: 9px;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    display: block;
+    margin: 4px 0 1px;
+}
+
+.kwm-council-grid {
+    display: flex;
+    gap: 2px;
+    flex-wrap: nowrap;
+}
+
+.kwm-seat {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: var(--clr);
+    border-radius: 3px;
+    padding: 2px 2px;
+    flex: 1 1 0;
+    min-width: 0;
+    cursor: default;
+    transition: transform 0.1s;
+}
+
+.kwm-seat:hover {
+    transform: scale(1.08);
+    z-index: 2;
+}
+
+.kwm-seat-pr {
+    opacity: 0.85;
+    border: 1px dashed rgba(255,255,255,0.4);
+}
+
+.kwm-seat-num {
+    font-size: 10px;
+    font-weight: 800;
+    color: rgba(255,255,255,0.7);
+    line-height: 1;
+}
+
+.kwm-seat-name {
+    font-size: 9px;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.3);
+    white-space: nowrap;
+    line-height: 1.2;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    width: 100%;
+    text-align: center;
+}
+
+.kwm-seat-num {
+    font-size: 9px;
+}
+
+.kwm-seat {
+    position: relative;
+}
+
+.kwm-seat-role {
+    position: absolute;
+    top: -5px;
+    right: -3px;
+    font-size: 12px;
+    color: #FFD700;
+    cursor: help;
+    filter: drop-shadow(0 1px 1px rgba(0,0,0,0.5));
+}
+
+.kwm-seat-tag {
+    font-size: 8px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.7);
+    text-transform: uppercase;
+    line-height: 1;
+}
+
+/* Mini election charts on map */
+.kwm-mini-chart-icon {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.kwm-mini-chart {
+    background: rgba(255,255,255,0.92);
+    border-radius: 6px;
+    padding: 4px 6px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.25);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    width: 150px;
+}
+
+.kwm-mini-total {
+    font-size: 9px;
+    font-weight: 700;
+    color: #555;
+    text-align: center;
+    margin-bottom: 2px;
+}
+
+.kwm-mini-bar {
+    display: flex;
+    height: 14px;
+    border-radius: 3px;
+    overflow: hidden;
+    margin-bottom: 2px;
+}
+
+.kwm-mini-seg {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 8px;
+    font-weight: 700;
+    color: #fff;
+    text-shadow: 0 1px 1px rgba(0,0,0,0.4);
+}
+
+.kwm-mini-legend {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 2px 6px;
+    font-size: 8px;
+    color: #555;
+    line-height: 1.3;
+}
+
+.kwm-mini-legend b {
+    font-weight: 800;
+}
+
+/* Party logo markers on map */
+.kwm-party-marker-icon {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.kwm-party-marker {
+    width: 40px;
+    height: 40px;
+    background: rgba(255,255,255,0.9);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    box-shadow: 0 2px 6px rgba(0,0,0,0.3);
+    border: 2px solid #fff;
+}
+
+.kwm-party-marker img {
+    width: 28px;
+    height: 28px;
+    object-fit: contain;
+}
+
+/* Council cards in modal */
+.kwm-council-cards {
+    display: flex;
+    gap: 8px;
+    flex-wrap: wrap;
+}
+
+.kwm-council-card {
+    width: 90px;
+    border-radius: 8px;
+    padding: 8px 6px;
+    text-align: center;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.2);
+    transition: transform 0.1s;
+}
+
+.kwm-council-card:hover {
+    transform: scale(1.05);
+}
+
+.kwm-council-img {
+    width: 55px;
+    height: 65px;
+    object-fit: cover;
+    object-position: top;
+    border-radius: 50%;
+    display: block;
+    margin: 0 auto 4px;
+    border: 2px solid rgba(255,255,255,0.6);
+}
+
+.kwm-council-card-name {
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+    line-height: 1.2;
+    margin-bottom: 1px;
+    text-shadow: 0 1px 2px rgba(0,0,0,0.3);
+}
+
+.kwm-council-card-party {
+    font-size: 9px;
+    font-weight: 600;
+    color: rgba(255,255,255,0.8);
+    margin-bottom: 1px;
+}
+
+.kwm-council-card-type {
+    font-size: 14px;
+    font-weight: 800;
+    color: rgba(255,255,255,0.95);
+}
+
+.kwm-council-card-role {
+    font-size: 7px;
+    color: #333;
+    background: rgba(255,255,255,0.85);
+    padding: 1px 4px;
+    border-radius: 3px;
+    margin-top: 3px;
+    display: inline-block;
+    font-weight: 700;
+    line-height: 1.3;
+}
+
+/* Seat popup in council modal */
+.kwm-seat-popup-container {
+    margin-top: 12px;
+    padding: 14px 16px;
+    background: #f5f5f5;
+    border-radius: 8px;
+    border: 1px solid #ddd;
+    cursor: pointer;
+}
+
+.kwm-seat-popup-header {
+    font-size: 15px;
+    font-weight: 800;
+    color: #1d2327;
+    margin-bottom: 6px;
+}
+
+.kwm-seat-popup-title {
+    font-size: 12px;
+    font-weight: 700;
+    color: #555;
+    margin-bottom: 4px;
+}
+
+.kwm-seat-popup-bar {
+    display: flex;
+    height: 22px;
+    border-radius: 4px;
+    overflow: hidden;
+    margin-bottom: 6px;
+}
+
+.kwm-seat-popup-list {
+    font-size: 12px;
+    color: #555;
+    line-height: 1.8;
+}
+
+.kwm-seat-popup-list b {
+    font-weight: 800;
+}
+
+/* Cadastral erf labels */
+.kwm-erf-label-icon {
+    background: none !important;
+    border: none !important;
+    box-shadow: none !important;
+}
+
+.kwm-erf-label {
+    font-size: 9px;
+    font-weight: 700;
+    color: #FF00FF;
+    text-shadow: 1px 1px 1px #fff, -1px -1px 1px #fff, 1px -1px 1px #fff, -1px 1px 1px #fff;
+    white-space: nowrap;
+    text-align: center;
+    display: block;
+}
+
+/* Political culture section in popup */
+.kwm-detail-politics {
+    padding: 10px 16px 14px;
+    border-top: 1px solid #e0e0e0;
+    background: #fafafa;
+}
+
+.kwm-culture-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 11px;
+    font-weight: 700;
+    color: #fff;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    margin-bottom: 8px;
+}
+
+.kwm-priorities {
+    font-size: 11px;
+    color: #333;
+    margin: 0 0 4px 0;
+    line-height: 1.4;
+}
+
+.kwm-notes {
+    font-size: 10px;
+    color: #777;
+    margin: 0 0 4px 0;
+    line-height: 1.4;
+    font-style: italic;
+}
+
+.kwm-kig-relevance {
+    display: inline-block;
+    padding: 3px 8px;
+    background: #1d2327;
+    color: #ffc107;
+    border-radius: 4px;
+    font-size: 11px;
+    font-weight: 600;
+    margin-top: 4px;
+}
+
+.kwm-popup .kwm-poi-type {
+    display: inline-block;
+    padding: 2px 8px;
+    border-radius: 10px;
+    font-size: 11px;
+    font-weight: 600;
+    text-transform: uppercase;
+}
+
+.kwm-poi-type-school     { background: #e3f2fd; color: #1565c0; }
+.kwm-poi-type-health     { background: #fce4ec; color: #c62828; }
+.kwm-poi-type-church     { background: #f3e5f5; color: #6a1b9a; }
+.kwm-poi-type-sport      { background: #e8f5e9; color: #2e7d32; }
+.kwm-poi-type-place      { background: #fff3e0; color: #e65100; }
+.kwm-poi-type-government { background: #e8eaf6; color: #283593; }
+
+
+/* Fullwidth page adjustments */
+.kwm-fullwidth-page .kwm-container {
+    padding: 0;
+}
+
+.kwm-fullwidth-page #kwm-map {
+    border-radius: 0;
+    border: none;
+    height: auto !important;
+}
+
+.kwm-fullwidth-page .kwm-controls {
+    border-radius: 0;
+    margin-bottom: 0;
+    flex-shrink: 0;
+}
+
+.kwm-fullwidth-page .kwm-ward-filters {
+    flex-shrink: 0;
+}
+
+/* Political culture legend rows */
+.kwm-culture-legend-row {
+    display: flex;
+    gap: 14px;
+    align-items: flex-start;
+    margin-bottom: 14px;
+}
+.kwm-culture-legend-dot {
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    flex-shrink: 0;
+    margin-top: 2px;
+}
+.kwm-culture-legend-row strong {
+    display: block;
+    font-size: 14px;
+    margin-bottom: 3px;
+}
+.kwm-culture-legend-row p {
+    margin: 0;
+    font-size: 12px;
+    color: #555;
+    line-height: 1.5;
+}
+
+/* Total votes block */
+#kwm-votes-total {
+    position: absolute;
+    bottom: 30px;
+    right: 10px;
+    z-index: 800;
+    background: rgba(15,20,25,0.88);
+    backdrop-filter: blur(4px);
+    border-radius: 8px;
+    padding: 10px 14px;
+    min-width: 180px;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.4);
+    pointer-events: none;
+}
+.kwm-vt-title {
+    font-size: 11px;
+    font-weight: 700;
+    color: #aaa;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    margin-bottom: 8px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+.kwm-vt-grand {
+    color: #fff;
+    font-size: 13px;
+}
+.kwm-vt-row {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    margin-bottom: 4px;
+    font-size: 12px;
+}
+.kwm-vt-dot {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    flex-shrink: 0;
+}
+.kwm-vt-party {
+    color: #ddd;
+    font-weight: 700;
+    width: 36px;
+    flex-shrink: 0;
+}
+.kwm-vt-pct {
+    color: #fff;
+    font-weight: 800;
+    width: 40px;
+    text-align: right;
+    flex-shrink: 0;
+}
+.kwm-vt-num {
+    color: #888;
+    font-size: 10px;
+    margin-left: auto;
+}
+
+/* ── Mobile tweaks ── */
+@media (max-width: 640px) {
+    .kwm-controls-header {
+        padding: 6px 10px;
+    }
+    .kwm-title {
+        font-size: 13px;
+    }
+    .kwm-controls-inner {
+        gap: 7px;
+        padding: 6px 10px;
+        font-size: 12px;
+    }
+    .kwm-controls-inner label {
+        font-size: 11px;
+    }
+    #kwm-ward-select,
+    #kwm-color-mode {
+        font-size: 12px;
+        min-width: 110px;
+        padding: 4px 6px;
+    }
+    .kwm-btn {
+        font-size: 12px;
+        padding: 4px 10px;
+    }
+    .kwm-ward-filters {
+        padding: 4px 6px 4px 10px;
+        gap: 4px;
+    }
+    .kwm-toggles {
+        gap: 7px;
+        padding: 4px 10px 4px 8px;
+        font-size: 11px;
+    }
+    .kwm-ward-chip {
+        width: 24px;
+        height: 24px;
+        font-size: 11px;
+    }
+    /* Auto-collapse controls on small screens */
+    .kwm-controls.collapsed .kwm-controls-body {
+        max-height: 0;
+    }
+}
